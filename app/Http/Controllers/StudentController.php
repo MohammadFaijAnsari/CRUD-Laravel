@@ -1,0 +1,58 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+class StudentController extends Controller
+{
+    public function save_student(Request $request){
+        $stu=DB::table('students')->insert([
+          'name'=>$request->name,
+          'city'=>$request->city,
+          'address'=>$request->address,
+        
+        ]);
+      if($stu){
+        // echo "<script>alert('Record is saved')</script>";
+        return redirect()->route('student.show')->with('success','Student Record is Save');
+      }else{
+        echo "<script>alert('Record is not saved')</script>"; 
+      }
+    }
+
+    public function showStudentRecord(){
+        $stu=DB::table('students')->get();
+        return view('StudentRecord',['stu'=>$stu]);
+    }
+
+    public function deleteStudent($id){
+      $stu=DB::table('students')->where('id','=',$id)->delete();
+      if($stu){
+        return redirect()->route('student.show')->with('success','Record is Deleted');
+      }else{
+        echo "Record is not Deletd";
+      }
+    }
+
+    public function editStudent($id){
+      $stu=DB::table('students')->where('id','=',$id)->first();
+      // echo "<pre>";
+      // print_r($stu);
+      // die;
+      return view('StudentUpdate',['stu'=>$stu]);
+    }
+    public function updateStudent(Request $request,$id){
+      $stu=DB::table('students')->where('id','=',$id)->update([
+        'name'=>$request->name,
+        'city'=>$request->city,
+        'address'=>$request->address,
+        
+      ]);
+      if($stu){
+        return redirect()->route('student.show')->with('success','Record is Updated');
+      }else{
+        echo "Record is not Deletd";
+      }
+    }
+}
