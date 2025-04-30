@@ -4,10 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\student;
 class StudentController extends Controller
 {
     public function save_student(Request $request){
-        $stu=DB::table('students')->insert([
+        $stu=student::insert([
           'name'=>$request->name,
           'city'=>$request->city,
           'address'=>$request->address,
@@ -22,7 +23,10 @@ class StudentController extends Controller
     }
 
     public function showStudentRecord(){
-        $stu=DB::table('students')->get();
+        // $stu=DB::table('students')->orderBy('name')->simplePaginate(2);
+        // $stu=DB::table('students')->paginate(2);
+        // $stu=DB::table('students')->where('city','Mumbai')->orderBy('name')->simplePaginate(2);
+        $stu=student::simplePaginate(5);
         return view('StudentRecord',['stu'=>$stu]);
     }
 

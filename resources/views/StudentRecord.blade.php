@@ -12,11 +12,6 @@
 @if(session('success'))
     <p style="color: green;">{{session('success')}}</p>
 @endif
-{{-- @if(session('success'))
-    <p style="color: red;">{{session('success')}}</p>
-@endif --}}
-    
-
 <div class="container mt-5">
     <a  href="{{route('studentForm')}}" class="btn btn-success">Add Student</a>
     <h1 class="text-center mb-4">Student Record</h1>
@@ -47,6 +42,11 @@
             @endforeach
         </tbody>
     </table>
+    <center>
+    <div class="mt-5">
+        {{$stu->links()}}
+    </div>
+</center>
 </div>
 
 <!-- Bootstrap JS Bundle -->
