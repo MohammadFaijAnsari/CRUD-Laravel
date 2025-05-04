@@ -23,16 +23,21 @@
                 <th>Name</th>
                 <th>City</th>
                 <th>Address</th>
+                <th>Images</th>
                 <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($stu as $res)
-            <tr>
+            <tr align="center">
                 <td>{{ $res->id }}</td>
                 <td>{{ $res->name }}</td>
                 <td>{{ $res->city }}</td>
                 <td>{{ $res->address }}</td>
+                <td>
+                    <img src="{{ asset('storage/' . $res->images) }}" alt="Image Not Found" width="100" style="border-radius: 10%">
+
+                </td>
                 <td>
                     
                     <a href="{{route('student.delete',$res->id)}}" class="btn btn-sm btn-danger" onclick="javascript: return confirm('Are you Sure to Delete This Record')">Delete</a>

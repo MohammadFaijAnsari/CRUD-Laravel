@@ -8,11 +8,12 @@ use App\Models\student;
 class StudentController extends Controller
 {
     public function save_student(Request $request){
+        $imagepath=$request->file('images')->store('images','public');
         $stu=student::insert([
           'name'=>$request->name,
           'city'=>$request->city,
           'address'=>$request->address,
-        
+          'images'=>$imagepath
         ]);
       if($stu){
         // echo "<script>alert('Record is saved')</script>";
