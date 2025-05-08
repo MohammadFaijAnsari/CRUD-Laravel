@@ -31,6 +31,11 @@
           <input type="text" name="address" id="address" class="form-control" value="{{$stu->address}}">
         </div>
 
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label>
+          <img src="" alt="" srcset="">
+        </div>
+
         <div class="d-flex justify-content-between">
           <button type="submit" class="btn btn-primary">Save Data</button>
           <button type="reset" class="btn btn-danger">Clear Data</button>

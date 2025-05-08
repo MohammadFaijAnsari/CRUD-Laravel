@@ -38,8 +38,7 @@
                     <img src="{{ asset('storage/' . $res->images) }}" alt="Image Not Found" width="100" style="border-radius: 10%">
 
                 </td>
-                <td>
-                    
+                <td> 
                     <a href="{{route('student.delete',$res->id)}}" class="btn btn-sm btn-danger" onclick="javascript: return confirm('Are you Sure to Delete This Record')">Delete</a>
                     <a href="{{route('student.edit',$res->id)}}" class="btn btn-sm btn-warning" >Update</a>
                 </td>

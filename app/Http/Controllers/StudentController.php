@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Storage;
 use App\Models\student;
 class StudentController extends Controller
 {
@@ -32,32 +33,52 @@ class StudentController extends Controller
     }
 
     public function deleteStudent($id){
-      $stu=DB::table('students')->where('id','=',$id)->delete();
-      if($stu){
-        return redirect()->route('student.show')->with('success','Record is Deleted');
-      }else{
-        echo "Record is not Deletd";
+      $stu = DB::table('students')->where('id', $id)->first();
+      
+      if ($stu && $stu->images) {
+        Storage::disk('public')->delete($stu->images);
+      }
+    
+      $deleted = DB::table('students')->where('id', $id)->delete();
+    
+      if ($deleted) {
+        return redirect()->route('student.show')->with('success', 'Record is Deleted');
+      } else {
+        return redirect()->route('student.show')->with('error', 'Record is not Deleted');
       }
     }
 
     public function editStudent($id){
       $stu=DB::table('students')->where('id','=',$id)->first();
-      // echo "<pre>";
-      // print_r($stu);
-      // die;
       return view('StudentUpdate',['stu'=>$stu]);
     }
-    public function updateStudent(Request $request,$id){
-      $stu=DB::table('students')->where('id','=',$id)->update([
-        'name'=>$request->name,
-        'city'=>$request->city,
-        'address'=>$request->address,
-        
-      ]);
-      if($stu){
-        return redirect()->route('student.show')->with('success','Record is Updated');
-      }else{
-        echo "Record is not Deletd";
+
+    
+    public function updateStudent(Request $request, $id){
+      $stu = DB::table('students')->where('id', $id)->first();
+    
+      $data = [
+        'name' => $request->name,
+        'city' => $request->city,
+        'address' => $request->address,
+      ];
+    
+      if ($request->hasFile('images')) {
+        // Delete old image
+        if ($stu->images) {
+          Storage::disk('public')->delete($stu->images);
+        }
+        // Store new image
+        $data['images'] = $request->file('images')->store('images', 'public');
+      }
+    
+      $updated = DB::table('students')->where('id', $id)->update($data);
+    
+      if ($updated) {
+        return redirect()->route('student.show')->with('success', 'Record is Updated');
+      } else {
+        return redirect()->route('student.show')->with('error', 'Record is not Updated');
       }
     }
+    
 }

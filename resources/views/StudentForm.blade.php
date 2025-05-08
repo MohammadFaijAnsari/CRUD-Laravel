@@ -35,6 +35,8 @@
           <label for="address" class="form-label">Select Image</label>
           <input type="file" name="images" id="images" class="form-control">
         </div>
+
+        
     
         <div class="d-flex justify-content-between">
           <button type="submit" class="btn btn-primary">Save Data</button>
